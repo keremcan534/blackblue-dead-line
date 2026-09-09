@@ -1,0 +1,22 @@
+{
+  "appId": "com.blackblue.deadline",
+  "appName": "Dead Line",
+  "webDir": "dist",
+  "android": {
+    "backgroundColor": "#03050C"
+  },
+  "ios": {
+    "backgroundColor": "#03050C",
+    "contentInset": "always"
+  },
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "backgroundColor": "#03050C",
+      "showSpinner": false,
+      "launchAutoHide": true
+    }
+  }
+}

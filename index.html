@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#05070f" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="description"
+      content="DEAD LINE - the path you create becomes your next obstacle."
+    />
+    <title>DEAD LINE</title>
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="game-root"></div>
+
+      <div id="vignette" aria-hidden="true"></div>
+      <div id="scanlines" aria-hidden="true"></div>
+
+      <!-- ------------------------------------------------------------- HUD -->
+      <div id="hud" class="layer hud">
+        <div class="hud-top">
+          <div class="hud-scores">
+            <div id="hud-score" class="hud-score">0</div>
+            <div id="hud-best" class="hud-best">BEST 0</div>
+          </div>
+          <button id="btn-pause" class="icon-btn" type="button" aria-label="Pause">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="7" y="5" width="3.5" height="14" rx="1" />
+              <rect x="13.5" y="5" width="3.5" height="14" rx="1" />
+            </svg>
+          </button>
+        </div>
+        <div id="hud-timer" class="hud-timer" hidden>30.0</div>
+        <div id="hud-combo" class="hud-combo" hidden></div>
+        <div id="hud-popup" class="hud-popup"></div>
+        <div id="hud-hint" class="hud-hint"></div>
+      </div>
+
+      <!-- ----------------------------------------------------------- TITLE -->
+      <section id="screen-title" class="layer screen" aria-label="Main menu">
+        <div class="screen-inner">
+          <header class="brand">
+            <h1 class="logo"><span class="logo-dead">DEAD</span><span class="logo-line">LINE</span></h1>
+            <div class="brand-rule"></div>
+            <p class="tagline">The path you create becomes your next obstacle</p>
+          </header>
+
+          <div class="mode-picker" role="tablist" aria-label="Game mode">
+            <button class="mode" type="button" role="tab" data-mode="endless">
+              <span class="mode-name">ENDLESS</span>
+              <span class="mode-best" data-best="endless">0</span>
+            </button>
+            <button class="mode" type="button" role="tab" data-mode="sprint">
+              <span class="mode-name">SPRINT 30</span>
+              <span class="mode-best" data-best="sprint">0</span>
+            </button>
+            <button class="mode" type="button" role="tab" data-mode="daily">
+              <span class="mode-name">DAILY</span>
+              <span class="mode-best" data-best="daily">0</span>
+            </button>
+          </div>
+
+          <p id="mode-blurb" class="mode-blurb">Survive as long as you can</p>
+
+          <button id="btn-play" class="btn btn-primary" type="button">PLAY</button>
+
+          <nav class="title-actions">
+            <button id="btn-help" class="btn btn-ghost" type="button">HOW TO PLAY</button>
+            <button id="btn-settings" class="btn btn-ghost" type="button">SETTINGS</button>
+          </nav>
+
+          <p class="hint-small">Drag anywhere &middot; or use &larr; &rarr;</p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------ PAUSE -->
+      <section id="screen-pause" class="layer screen" hidden aria-label="Paused">
+        <div class="screen-inner">
+          <h2 class="panel-title">PAUSED</h2>
+          <div class="panel-score"><span id="pause-score">0</span></div>
+          <button id="btn-resume" class="btn btn-primary" type="button">RESUME</button>
+          <button id="btn-pause-restart" class="btn" type="button">RESTART</button>
+          <button id="btn-pause-menu" class="btn btn-ghost" type="button">MAIN MENU</button>
+        </div>
+      </section>
+
+      <!-- -------------------------------------------------------- GAME OVER -->
+      <section id="screen-over" class="layer screen" hidden aria-label="Run complete">
+        <div class="screen-inner">
+          <div id="over-badge" class="badge" hidden>NEW BEST</div>
+          <h2 id="over-cause" class="panel-title danger">CROSSED YOUR OWN LINE</h2>
+          <div class="panel-score"><span id="over-score">0</span></div>
+          <div id="over-best" class="panel-sub">BEST 0</div>
+
+          <dl class="stats">
+            <div><dt>TIME</dt><dd id="over-time">0.0s</dd></div>
+            <div><dt>NEAR MISSES</dt><dd id="over-grazes">0</dd></div>
+            <div><dt>BEST COMBO</dt><dd id="over-combo">x0</dd></div>
+            <div><dt>CORES</dt><dd id="over-cores">0</dd></div>
+          </dl>
+
+          <button id="btn-retry" class="btn btn-primary" type="button">RETRY</button>
+          <button id="btn-over-menu" class="btn btn-ghost" type="button">MAIN MENU</button>
+          <p class="hint-small">Tap anywhere to retry</p>
+        </div>
+      </section>
+
+      <!-- --------------------------------------------------------- SETTINGS -->
+      <section id="screen-settings" class="layer screen" hidden aria-label="Settings">
+        <div class="screen-inner">
+          <h2 class="panel-title">SETTINGS</h2>
+          <div class="toggles">
+            <button class="toggle" type="button" data-setting="sound">
+              <span>SOUND</span><span class="toggle-state">ON</span>
+            </button>
+            <button class="toggle" type="button" data-setting="haptics">
+              <span>HAPTICS</span><span class="toggle-state">ON</span>
+            </button>
+            <button class="toggle" type="button" data-setting="reducedFx">
+              <span>REDUCED EFFECTS</span><span class="toggle-state">OFF</span>
+            </button>
+            <button class="toggle" type="button" data-setting="invertSteer">
+              <span>INVERT STEERING</span><span class="toggle-state">OFF</span>
+            </button>
+          </div>
+          <div id="settings-stats" class="stats-block"></div>
+          <button id="btn-settings-close" class="btn btn-primary" type="button">DONE</button>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------- HELP -->
+      <section id="screen-help" class="layer screen" hidden aria-label="How to play">
+        <div class="screen-inner">
+          <h2 class="panel-title">HOW TO PLAY</h2>
+          <ul class="help-list">
+            <li><b>Drag left or right</b> anywhere on the screen to bend the path ahead of you. You never move the dot directly.</li>
+            <li>Once you pass a stretch of path it <b>freezes solid</b>. The pale tip behind you is still safe; everything past the white marker will kill you.</li>
+            <li>The arena <b>curls</b>, so you come back around into the line you just drew. Old path ages from cyan to red, then burns away.</li>
+            <li>Shave past your line, the wall or a hazard for a <b>near miss</b>. Chain them for a combo multiplier.</li>
+            <li>Grab a <b>green core</b> to purge the old path around it and buy yourself room.</li>
+          </ul>
+          <button id="btn-help-close" class="btn btn-primary" type="button">GOT IT</button>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
