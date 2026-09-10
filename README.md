@@ -8,6 +8,8 @@ ahead of it*. Everything you have already driven through freezes solid behind
 you, the arena curls you back around into it, and the run ends the moment you
 touch your own line, the perimeter, or a hazard.
 
+**Play it: https://keremcan534.github.io/blackblue-dead-line/**
+
 TypeScript · Vite · Phaser 3 · no backend · no image or audio assets.
 
 ---
