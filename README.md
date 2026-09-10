@@ -33,7 +33,7 @@ from `file://` or dropped straight into a Capacitor WebView.
 
 | Script | Does |
 | --- | --- |
-| `npm run dev` | Vite dev server on port 5173, exposed on the LAN for phone testing |
+| `npm run dev` | Vite dev server, exposed on the LAN for phone testing. Port 5173 by default, or `$PORT` if set |
 | `npm run build` | Type-check, then build to `dist/` |
 | `npm run preview` | Serve the production build |
 | `npm run typecheck` | Type-check only |

@@ -5,7 +5,10 @@ export default defineConfig({
   base: './',
   server: {
     host: true,
-    port: 5173,
+    // Honour an assigned PORT (dev-server managers, containers, CI); 5173 is
+    // just the default when nothing says otherwise. Nothing here needs a fixed
+    // port - there are no callbacks, webhooks or CORS origins to match.
+    port: Number(process.env.PORT) || 5173,
   },
   build: {
     target: 'es2020',
